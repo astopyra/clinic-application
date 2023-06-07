@@ -1,6 +1,7 @@
 package com.artur.ClinicApp.controller;
 
 
+import com.artur.ClinicApp.domain.Prescription;
 import com.artur.ClinicApp.domain.dto.PrescriptionDto;
 import com.artur.ClinicApp.mapper.PrescriptionMapper;
 import com.artur.ClinicApp.service.PrescriptionDbService;
@@ -8,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @CrossOrigin("*")
@@ -24,5 +27,16 @@ public class PrescriptionController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping(value = "{prescriptionId}")
+    public ResponseEntity<Void> deletePrescription(@PathVariable Long prescriptionId) throws ObjectNotFoundException {
+        service.deletePrescription(prescriptionId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(value="{patientId}")
+    public ResponseEntity<List<PrescriptionDto>> getAllPatientPrescriptions(@PathVariable Long patientId) {
+        List<Prescription> prescriptions = service.allPatientPrescriptions(patientId);
+        return ResponseEntity.ok(mapper.mapToPrescriptionDtoList(prescriptions));
+    }
 
 }

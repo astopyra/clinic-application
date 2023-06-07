@@ -7,24 +7,23 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Entity(name="visits")
-public class Visit {
+@Entity(name = "reviews")
+public class Review {
+
     @Id
     @GeneratedValue
     private Long id;
 
-    private LocalDateTime dateOfVisit;
+    private String opinion;
 
-    private String notes;
+    private LocalDateTime date;
+
+    private String author;
 
     @ManyToOne
-    @JoinColumn(name="doctorId")
+    @JoinColumn(name = "doctorId")
     private Doctor doctor;
-
-    @ManyToOne
-    @JoinColumn(name="patientId")
-    private Patient patient;
 }

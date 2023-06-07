@@ -12,5 +12,5 @@ public interface PrescriptionRepository extends CrudRepository<Prescription, Lon
     @Override
     Prescription save(Prescription prescription);
 
-    List<Prescription> findPrescriptionByPatientId(Long id);
+    List<Prescription> findPrescriptionsByPatientId(Long id);
 }

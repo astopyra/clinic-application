@@ -19,8 +19,8 @@ public class DoctorDbService {
         return doctorRepository.findAll();
     }
 
-    public Optional<Doctor> getDoctor(final Long id) throws ObjectNotFoundException {
-        return doctorRepository.findById(id);
+    public Doctor getDoctor(final Long id) throws ObjectNotFoundException {
+        return doctorRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
     }
 
     public Doctor saveDoctor(final Doctor doctor) {
@@ -29,7 +29,6 @@ public class DoctorDbService {
 
 
     public List<Doctor> getDoctorsByLastname(String surname) throws ObjectNotFoundException {
-
         List<Doctor> doctorsWithGivenLastname = doctorRepository.findAllByLastname(surname);
         if(doctorsWithGivenLastname.isEmpty())
             throw new ObjectNotFoundException();
@@ -37,17 +36,15 @@ public class DoctorDbService {
     }
 
     public List<Doctor> getDoctorsBySpecialization(String specialization) throws ObjectNotFoundException{
-
         List<Doctor> doctorsWithGivenSpecialization = doctorRepository.findAllBySpecialization(specialization);
         if(doctorsWithGivenSpecialization.isEmpty())
             throw new ObjectNotFoundException();
         return doctorsWithGivenSpecialization;
     }
 
+
     public void deleteDoctor(Long doctorId) throws ObjectNotFoundException {
-        Optional<Doctor> doctorToDelete = doctorRepository.findById(doctorId);
-        if(doctorToDelete.isPresent()) {
-            doctorRepository.deleteById(doctorId);
-        } else throw new ObjectNotFoundException();
+        doctorRepository.findById(doctorId).orElseThrow(ObjectNotFoundException::new);
+        doctorRepository.deleteById(doctorId);
     }
 }

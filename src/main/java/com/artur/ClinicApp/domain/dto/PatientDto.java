@@ -1,5 +1,6 @@
 package com.artur.ClinicApp.domain.dto;
 
+import com.artur.ClinicApp.domain.Visit;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,4 +15,5 @@ public class PatientDto {
     private String address;
     private String gender;
     private List<PrescriptionDto> prescriptionList;
+    private List<VisitDto> visitList;
 }

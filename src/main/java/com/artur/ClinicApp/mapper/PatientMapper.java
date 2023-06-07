@@ -3,6 +3,7 @@ package com.artur.ClinicApp.mapper;
 import com.artur.ClinicApp.domain.Patient;
 import com.artur.ClinicApp.domain.dto.PatientDto;
 import com.artur.ClinicApp.service.PrescriptionDbService;
+import com.artur.ClinicApp.service.VisitDbService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,9 @@ public class PatientMapper {
 
     private final PrescriptionMapper prescriptionMapper;
     private final PrescriptionDbService prescriptionDbService;
+    private final VisitMapper visitMapper;
+    private final VisitDbService visitDbService;
+
 
     public Patient mapToPatient(PatientDto patientDto) {
         return new Patient(
@@ -22,7 +26,8 @@ public class PatientMapper {
                 patientDto.getLastname(),
                 patientDto.getAddress(),
                 patientDto.getGender(),
-                prescriptionDbService.allPatientPrescriptions(patientDto.getId())
+                prescriptionDbService.allPatientPrescriptions(patientDto.getId()),
+                visitDbService.allPatientVisits(patientDto.getId())
         );
     }
 
@@ -33,7 +38,8 @@ public class PatientMapper {
                 patient.getLastname(),
                 patient.getAddress(),
                 patient.getGender(),
-                prescriptionMapper.mapToPrescriptionDtoList(patient.getPrescriptionList())
+                prescriptionMapper.mapToPrescriptionDtoList(patient.getPrescriptionList()),
+                visitMapper.mapToVisitDtoList(patient.getVisitList())
         );
     }
 

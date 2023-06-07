@@ -1,5 +1,6 @@
 package com.artur.ClinicApp.service;
 
+import com.artur.ClinicApp.controller.ObjectNotFoundException;
 import com.artur.ClinicApp.domain.Prescription;
 import com.artur.ClinicApp.repository.PrescriptionRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,11 @@ public class PrescriptionDbService {
     }
 
     public List<Prescription> allPatientPrescriptions(final Long patientId) {
-        return repository.findPrescriptionByPatientId(patientId);
+        return repository.findPrescriptionsByPatientId(patientId);
+    }
+
+    public void deletePrescription(Long prescriptionId) throws ObjectNotFoundException {
+        repository.findById(prescriptionId).orElseThrow(ObjectNotFoundException::new);
+        repository.deleteById(prescriptionId);
     }
 }

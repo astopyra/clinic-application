@@ -1,6 +1,7 @@
-package com.artur.ClinicApp.domain;
+package com.artur.ClinicApp.domain.entity;
 
 
+import com.artur.ClinicApp.domain.entity.Patient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

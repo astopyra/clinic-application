@@ -1,7 +1,7 @@
 package com.artur.ClinicApp.mapper;
 
 import com.artur.ClinicApp.controller.ObjectNotFoundException;
-import com.artur.ClinicApp.domain.Visit;
+import com.artur.ClinicApp.domain.entity.Visit;
 import com.artur.ClinicApp.domain.dto.VisitDto;
 import com.artur.ClinicApp.service.DoctorDbService;
 import com.artur.ClinicApp.service.PatientDbService;
@@ -22,7 +22,7 @@ public class VisitMapper {
                 visitDto.getId(),
                 visitDto.getDateOfVisit(),
                 visitDto.getNotes(),
-                doctorDbService.getDoctor(visitDto.getDoctorId()),
+                doctorDbService.getDoctorById(visitDto.getDoctorId()),
                 patientDbService.getPatientById(visitDto.getPatientId())
         );
     }

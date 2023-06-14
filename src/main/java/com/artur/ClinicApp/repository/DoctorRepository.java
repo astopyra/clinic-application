@@ -1,6 +1,6 @@
 package com.artur.ClinicApp.repository;
 
-import com.artur.ClinicApp.domain.Doctor;
+import com.artur.ClinicApp.domain.entity.Doctor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

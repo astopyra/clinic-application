@@ -1,7 +1,5 @@
 package com.artur.ClinicApp.domain.dto;
 
-import com.artur.ClinicApp.domain.Doctor;
-import com.artur.ClinicApp.domain.Patient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

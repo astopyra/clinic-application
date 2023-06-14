@@ -1,9 +1,7 @@
 package com.artur.ClinicApp.mapper;
 
-import com.artur.ClinicApp.domain.Doctor;
 import com.artur.ClinicApp.domain.dto.DoctorDto;
-import com.artur.ClinicApp.service.ReviewDbService;
-import com.artur.ClinicApp.service.VisitDbService;
+import com.artur.ClinicApp.domain.entity.Doctor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,31 +11,28 @@ import java.util.List;
 @Service
 public class DoctorMapper {
 
-    private final VisitDbService visitDbService;
-    private final ReviewDbService reviewDbService;
-    private final VisitMapper visitMapper;
-    private final ReviewMapper reviewMapper;
+    private final UserMapper userMapper;
 
-    public Doctor mapToDoctor(DoctorDto doctorDto) {
-        return new Doctor(
-                doctorDto.getId(),
-                doctorDto.getFirstname(),
-                doctorDto.getLastname(),
-                doctorDto.getSpecialization(),
-                visitDbService.allDoctorVisits(doctorDto.getId()),
-                reviewDbService.allDoctorReviews(doctorDto.getId())
-        );
+    public Doctor mapToDoctor(final DoctorDto doctorDto) {
+        return Doctor.builder()
+                .id(doctorDto.getId())
+                .firstname(doctorDto.getFirstname())
+                .lastname(doctorDto.getLastname())
+                .email(doctorDto.getEmail())
+                .specialization(doctorDto.getSpecialization())
+                .user(userMapper.mapToUser(doctorDto.getUserDto()))
+                .build();
     }
 
-    public DoctorDto mapToDoctorDto(Doctor doctor) {
-        return new DoctorDto(
-                doctor.getId(),
-                doctor.getFirstname(),
-                doctor.getLastname(),
-                doctor.getSpecialization(),
-                visitMapper.mapToVisitDtoList(doctor.getVisitList()),
-                reviewMapper.mapToReviewDtoList(doctor.getReviewList())
-        );
+    public DoctorDto mapToDoctorDto(final Doctor doctor) {
+        return DoctorDto.builder()
+                .id(doctor.getId())
+                .firstname(doctor.getFirstname())
+                .lastname(doctor.getLastname())
+                .email(doctor.getEmail())
+                .specialization(doctor.getSpecialization())
+                .userDto(userMapper.mapToUSerDto(doctor.getUser()))
+                .build();
     }
 
     public List<DoctorDto> mapToDoctorDtoList(final List<Doctor> doctors) {

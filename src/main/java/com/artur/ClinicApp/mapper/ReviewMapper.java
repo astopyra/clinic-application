@@ -1,7 +1,7 @@
 package com.artur.ClinicApp.mapper;
 
 import com.artur.ClinicApp.controller.ObjectNotFoundException;
-import com.artur.ClinicApp.domain.Review;
+import com.artur.ClinicApp.domain.entity.Review;
 import com.artur.ClinicApp.domain.dto.ReviewDto;
 import com.artur.ClinicApp.service.DoctorDbService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class ReviewMapper {
                 reviewDto.getOpinion(),
                 reviewDto.getDate(),
                 reviewDto.getAuthor(),
-                doctorDbService.getDoctor(reviewDto.getDoctorId())
+                doctorDbService.getDoctorById(reviewDto.getDoctorId())
         );
     }
 

@@ -1,6 +1,6 @@
 package com.artur.ClinicApp.service;
 
-import com.artur.ClinicApp.domain.Review;
+import com.artur.ClinicApp.domain.entity.Review;
 import com.artur.ClinicApp.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.artur.ClinicApp.repository;
 
-import com.artur.ClinicApp.domain.Visit;
+import com.artur.ClinicApp.domain.entity.Visit;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +13,5 @@ public interface VisitRepository extends CrudRepository<Visit, Long> {
 
     List<Visit> findVisitByDoctorId(Long id);
 
+    List<Visit> findAll();
 }

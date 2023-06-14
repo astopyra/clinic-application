@@ -1,9 +1,7 @@
-package com.artur.ClinicApp.domain;
+package com.artur.ClinicApp.domain.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,24 +9,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
+@Builder
 @Entity(name="patients")
 public class Patient {
 
     @Id
     @GeneratedValue
     private Long id;
-
-    @Column
     private String firstname;
-
-    @Column
     private String lastname;
-
-    @Column
+    private String email;
     private String address;
-
-    @Column
-    private String gender;
 
     @OneToMany(
             targetEntity = Prescription.class,
@@ -46,4 +38,17 @@ public class Patient {
     )
     private List<Visit> visitList;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_details")
+    private User user;
+
+    public Patient(Long id, String firstname, String lastname, String email, String address) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.address = address;
+    }
 }
+
+

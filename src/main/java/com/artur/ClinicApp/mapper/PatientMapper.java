@@ -1,9 +1,7 @@
 package com.artur.ClinicApp.mapper;
 
-import com.artur.ClinicApp.domain.Patient;
 import com.artur.ClinicApp.domain.dto.PatientDto;
-import com.artur.ClinicApp.service.PrescriptionDbService;
-import com.artur.ClinicApp.service.VisitDbService;
+import com.artur.ClinicApp.domain.entity.Patient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,37 +11,31 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PatientMapper {
 
-    private final PrescriptionMapper prescriptionMapper;
-    private final PrescriptionDbService prescriptionDbService;
-    private final VisitMapper visitMapper;
-    private final VisitDbService visitDbService;
+    private final UserMapper userMapper;
 
-
-    public Patient mapToPatient(PatientDto patientDto) {
-        return new Patient(
-                patientDto.getId(),
-                patientDto.getFirstname(),
-                patientDto.getLastname(),
-                patientDto.getAddress(),
-                patientDto.getGender(),
-                prescriptionDbService.allPatientPrescriptions(patientDto.getId()),
-                visitDbService.allPatientVisits(patientDto.getId())
-        );
+    public Patient mapToPatient(final PatientDto patientDto) {
+       return Patient.builder()
+               .id(patientDto.getId())
+               .firstname(patientDto.getFirstname())
+               .lastname(patientDto.getLastname())
+               .email(patientDto.getEmail())
+               .address(patientDto.getAddress())
+               .user(userMapper.mapToUser(patientDto.getUserDto()))
+               .build();
     }
 
-    public PatientDto mapToPatientDto(Patient patient) {
-        return new PatientDto(
-                patient.getId(),
-                patient.getFirstname(),
-                patient.getLastname(),
-                patient.getAddress(),
-                patient.getGender(),
-                prescriptionMapper.mapToPrescriptionDtoList(patient.getPrescriptionList()),
-                visitMapper.mapToVisitDtoList(patient.getVisitList())
-        );
+    public PatientDto mapToPatientDto(final Patient patient) {
+        return PatientDto.builder()
+                .id(patient.getId())
+                .firstname(patient.getFirstname())
+                .lastname(patient.getLastname())
+                .email(patient.getEmail())
+                .address(patient.getAddress())
+                .userDto(userMapper.mapToUSerDto(patient.getUser()))
+                .build();
     }
 
-    public List<PatientDto> mapToPatientsDtoList(List<Patient> patients) {
+    public List<PatientDto> mapToPatientsDtoList(final List<Patient> patients) {
         return patients.stream()
                 .map(this::mapToPatientDto)
                 .toList();

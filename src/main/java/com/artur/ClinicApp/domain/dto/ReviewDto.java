@@ -1,6 +1,5 @@
 package com.artur.ClinicApp.domain.dto;
 
-import com.artur.ClinicApp.domain.Doctor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -1,13 +1,16 @@
 package com.artur.ClinicApp.controller;
 
 
-import com.artur.ClinicApp.domain.Doctor;
+import com.artur.ClinicApp.domain.DoctorRegisterForm;
 import com.artur.ClinicApp.domain.dto.DoctorDto;
+import com.artur.ClinicApp.domain.entity.Doctor;
 import com.artur.ClinicApp.mapper.DoctorMapper;
 import com.artur.ClinicApp.service.DoctorDbService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,20 +42,22 @@ public class DoctorController {
         return ResponseEntity.ok(mapper.mapToDoctorDtoList(doctors));
     }
 
+    @Secured({"ROLE_ADMIN"})
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> addDoctor(@RequestBody DoctorDto doctorDto){
-        Doctor doctor = mapper.mapToDoctor(doctorDto);
-        service.saveDoctor(doctor);
+    public ResponseEntity<Void> addDoctor(@RequestBody DoctorRegisterForm registerForm){
+        service.registerDoctor(registerForm);
         return ResponseEntity.ok().build();
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_DOCTOR"})
     @PutMapping()
     public ResponseEntity<DoctorDto> updateDoctor(@RequestBody DoctorDto doctorDto) {
         Doctor doctor = mapper.mapToDoctor(doctorDto);
-        Doctor savedDoctor = service.saveDoctor(doctor);
+        Doctor savedDoctor = service.updateDoctor(doctor);
         return ResponseEntity.ok(mapper.mapToDoctorDto(savedDoctor));
     }
 
+    @Secured({"ROLE_ADMIN"})
     @DeleteMapping(value="{doctorId}")
     public ResponseEntity<Void> deleteDoctor(@PathVariable Long doctorId) throws ObjectNotFoundException{
         service.deleteDoctor(doctorId);

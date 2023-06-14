@@ -1,8 +1,6 @@
-package com.artur.ClinicApp.domain;
+package com.artur.ClinicApp.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,6 +8,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
+@Builder
 @Entity(name="doctors")
 public class Doctor {
 
@@ -22,6 +22,8 @@ public class Doctor {
 
     @Column(name="lastname")
     private String lastname;
+
+    private String email;
 
     @Column(name="specialization")
     private String specialization;
@@ -42,6 +44,15 @@ public class Doctor {
     )
     private List<Review> reviewList;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_details")
+    private User user;
 
-
+    public Doctor(Long id, String firstname, String lastname, String email, String specialization) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.specialization = specialization;
+    }
 }

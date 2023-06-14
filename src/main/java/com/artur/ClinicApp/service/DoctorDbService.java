@@ -2,28 +2,51 @@ package com.artur.ClinicApp.service;
 
 
 import com.artur.ClinicApp.controller.ObjectNotFoundException;
-import com.artur.ClinicApp.domain.Doctor;
+import com.artur.ClinicApp.domain.DoctorRegisterForm;
+import com.artur.ClinicApp.domain.UserRole;
+import com.artur.ClinicApp.domain.entity.Doctor;
+import com.artur.ClinicApp.domain.entity.User;
 import com.artur.ClinicApp.repository.DoctorRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.EnumSet;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class DoctorDbService {
     private final DoctorRepository doctorRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public List<Doctor> getAllDoctors() {
         return doctorRepository.findAll();
     }
 
-    public Doctor getDoctor(final Long id) throws ObjectNotFoundException {
+    public Doctor getDoctorById(Long id) throws ObjectNotFoundException {
         return doctorRepository.findById(id).orElseThrow(ObjectNotFoundException::new);
     }
 
-    public Doctor saveDoctor(final Doctor doctor) {
+    public Doctor registerDoctor(final DoctorRegisterForm registerForm) {
+        Doctor doctorToRegister = new Doctor(
+                registerForm.getId(),
+                registerForm.getFirstname(),
+                registerForm.getLastname(),
+                registerForm.getEmail(),
+                registerForm.getSpecialization()
+        );
+
+        doctorToRegister.setUser(new User(
+                registerForm.getId(),
+                registerForm.getUsername(),
+                passwordEncoder.encode(registerForm.getPassword()),
+                EnumSet.of(UserRole.DOCTOR)
+        ));
+        return doctorRepository.save(doctorToRegister);
+    }
+
+    public Doctor updateDoctor(final Doctor doctor) {
          return doctorRepository.save(doctor);
     }
 

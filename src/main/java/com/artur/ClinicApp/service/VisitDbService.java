@@ -1,6 +1,6 @@
 package com.artur.ClinicApp.service;
 
-import com.artur.ClinicApp.domain.Visit;
+import com.artur.ClinicApp.domain.entity.Visit;
 import com.artur.ClinicApp.repository.VisitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,4 +24,6 @@ public class VisitDbService {
     public List<Visit> allDoctorVisits(final Long patientId) {
         return repository.findVisitByDoctorId(patientId);
     }
+
+    public List<Visit> allVisits() { return repository.findAll(); }
 }

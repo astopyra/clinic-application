@@ -1,12 +1,13 @@
 package com.artur.ClinicApp.controller;
 
-import com.artur.ClinicApp.domain.Review;
+import com.artur.ClinicApp.domain.entity.Review;
 import com.artur.ClinicApp.domain.dto.ReviewDto;
 import com.artur.ClinicApp.mapper.ReviewMapper;
 import com.artur.ClinicApp.service.ReviewDbService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class ReviewController {
     private final ReviewMapper mapper;
     private final ReviewDbService dbService;
 
+    @Secured({"ROLE_PATIENT"})
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> addReview(@RequestBody ReviewDto reviewDto) throws ObjectNotFoundException {
         Review review = mapper.mapToReview(reviewDto);

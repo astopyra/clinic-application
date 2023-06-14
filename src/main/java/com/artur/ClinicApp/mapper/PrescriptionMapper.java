@@ -1,7 +1,7 @@
 package com.artur.ClinicApp.mapper;
 
 import com.artur.ClinicApp.controller.ObjectNotFoundException;
-import com.artur.ClinicApp.domain.Prescription;
+import com.artur.ClinicApp.domain.entity.Prescription;
 import com.artur.ClinicApp.domain.dto.PrescriptionDto;
 import com.artur.ClinicApp.service.PatientDbService;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +30,6 @@ public class PrescriptionMapper {
                 prescription.getPatient().getId()
         );
     }
-
-
 
     public List<PrescriptionDto> mapToPrescriptionDtoList(final List<Prescription> prescriptionList) {
         return prescriptionList.stream()
